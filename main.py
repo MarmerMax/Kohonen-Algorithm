@@ -20,19 +20,36 @@ X = Utils.createRandomPointsArray(radius, centerX, centerY)
 epochs = 10
 SOM.fit(X, neurons, epochs)
 
-# get the coordinates of neurons for presentation on the graph
-x_values, y_values = Utils.getCoordinates(neurons, "circle")
 
-# y = []
-# y.append(neurons[:5, 0])
-# y.append(neurons[5:10, 0])
-# print(y)
+# type of shape for create lines in plot
+type_of_shape = "square"
+
+# get the coordinates of neurons for presentation on the graph
+x_values, y_values = Utils.getCoordinates(neurons, type_of_shape)
+
 
 # paint points and neurons
 fig, ax = plt.subplots()
 plt.scatter(X[:, 0], X[:, 1], color='green', marker='x', label='points')
 plt.scatter(neurons[:, 0], neurons[:, 1], color='red', marker='o', label='neurons')
-plt.plot(x_values, y_values, color='red', linewidth=1.0)
+
+if type_of_shape == "square":
+    x_values = np.array_split(x_values, 10)
+    y_values = np.array_split(y_values, 10)
+    plt.plot(x_values[0], y_values[0], color='red', linewidth=1.0)
+    plt.plot(x_values[1], y_values[1], color='red', linewidth=1.0)
+    plt.plot(x_values[2], y_values[2], color='red', linewidth=1.0)
+    plt.plot(x_values[3], y_values[3], color='red', linewidth=1.0)
+    plt.plot(x_values[4], y_values[4], color='red', linewidth=1.0)
+    plt.plot(x_values[5], y_values[5], color='red', linewidth=1.0)
+    plt.plot(x_values[6], y_values[6], color='red', linewidth=1.0)
+    plt.plot(x_values[7], y_values[7], color='red', linewidth=1.0)
+    plt.plot(x_values[8], y_values[8], color='red', linewidth=1.0)
+    plt.plot(x_values[9], y_values[9], color='red', linewidth=1.0)
+else:
+    plt.plot(x_values, y_values, color='red', linewidth=1.0)
+
+
 c1 = plt.Circle((centerX, centerY), radius, color='blue', fill=False)
 ax.add_artist(c1)
 plt.show()

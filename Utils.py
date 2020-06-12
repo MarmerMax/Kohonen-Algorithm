@@ -59,11 +59,36 @@ def initNeuronsInSquare(neurons_size, neurons_per_line, radius):
 
 
 def getCoordinates(array, type):
-    if type == "circle":
+    if type == "circle" or type == "line":
         x = array[:, 0]
         y = array[:, 1]
         return x, y
 
-    # if type == "square":
-    #     x = np.array([])
-    #     np.append(x, array[:4, 0], array[5:9, 0], array[10:14, 0], array[14:19, 0], array[20:25, 0])
+    if type == "square":
+        x = np.array([])
+        y = np.array([])
+        i = 0
+        while i < len(array):
+            x = np.append(x, np.array(array[i:i + 5, 0]), 0)
+            y = np.append(y, np.array(array[i:i + 5, 1]), 0)
+            i += 5
+
+        i = 0
+        while i < 5:
+            j = 0
+            column_x = np.array([])
+            column_y = np.array([])
+            line_length = int(len(array) / 5)
+
+            while j < line_length:
+                column_x = np.append(column_x, np.array([array[j * line_length + i, 0]]), 0)
+                column_y = np.append(column_y, np.array([array[j * line_length + i, 1]]), 0)
+
+                j += 1
+
+            x = np.append(x, column_x, 0)
+            y = np.append(y, column_y, 0)
+
+            i += 1
+
+        return x, y

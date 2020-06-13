@@ -8,34 +8,39 @@ centerX = 0
 centerY = 0
 neurons_size = 30
 
+# type of train shape -> ["circle", "ring"]
+type_of_shape = "ring"
 
-# type of network shape
-type_of_shape = "square"
+# create random points by chosen type of shape
+if type_of_shape == "circle":
+    X = Utils.createRandomPointsInCircleArray(radius, centerX, centerY)
+elif type_of_shape == "ring":
+    X = Utils.createRandomPointsInRingArray(radius * 2, radius, centerX, centerY)
 
-# Init neurons
-if type_of_shape == "line":
+# type of neurons network shape -> ["line", "circle", "square"]
+type_of_network = "square"
+
+# create neurons points by chosen type of network
+if type_of_network == "line":
     neurons = Utils.initNeuronsInLine(neurons_size, radius)
-elif type_of_shape == "circle":
+elif type_of_network == "circle":
     neurons = Utils.initNeuronsInCircle(neurons_size, radius)
-elif type_of_shape == "square":
+elif type_of_network == "square":
     neurons = Utils.initNeuronsInSquare(25, 5, radius)
-
-# create random points by radius
-X = Utils.createRandomPointsInCircleArray(radius, centerX, centerY)
 
 # algorithm
 epochs = 10
 SOM.fit(X, neurons, epochs)
 
 # get the coordinates of neurons for presentation on the graph
-x_values, y_values = Utils.getCoordinates(neurons, type_of_shape)
+x_values, y_values = Utils.getCoordinates(neurons, type_of_network)
 
 # paint points and neurons
 fig, ax = plt.subplots()
 plt.scatter(X[:, 0], X[:, 1], color='green', marker='x', label='points')
 plt.scatter(neurons[:, 0], neurons[:, 1], color='red', marker='o', label='neurons')
 
-if type_of_shape == "square":
+if type_of_network == "square":
     x_values = np.array_split(x_values, 10)
     y_values = np.array_split(y_values, 10)
     plt.plot(x_values[0], y_values[0], color='red', linewidth=1.0)
@@ -51,6 +56,13 @@ if type_of_shape == "square":
 else:
     plt.plot(x_values, y_values, color='red', linewidth=1.0)
 
-c1 = plt.Circle((centerX, centerY), 2, color='blue', fill=False)
-ax.add_artist(c1)
+if type_of_shape == "circle":
+    c1 = plt.Circle((centerX, centerY), radius, color='blue', fill=False)
+    ax.add_artist(c1)
+elif type_of_shape == "ring":
+    c1 = plt.Circle((centerX, centerY), radius, color='blue', fill=False)
+    c2 = plt.Circle((centerX, centerY), radius * 2, color='blue', fill=False)
+    ax.add_artist(c1)
+    ax.add_artist(c2)
+
 plt.show()

@@ -8,25 +8,27 @@ centerX = 0
 centerY = 0
 neurons_size = 30
 
+
+# type of network shape
+type_of_shape = "square"
+
 # Init neurons
-# neurons = Utils.initNeuronsInLine(neurons_size, radius)
-# neurons = Utils.initNeuronsInCircle(neurons_size, radius)
-neurons = Utils.initNeuronsInSquare(25, 5, radius)
+if type_of_shape == "line":
+    neurons = Utils.initNeuronsInLine(neurons_size, radius)
+elif type_of_shape == "circle":
+    neurons = Utils.initNeuronsInCircle(neurons_size, radius)
+elif type_of_shape == "square":
+    neurons = Utils.initNeuronsInSquare(25, 5, radius)
 
 # create random points by radius
-X = Utils.createRandomPointsArray(radius, centerX, centerY)
+X = Utils.createRandomPointsInCircleArray(radius, centerX, centerY)
 
 # algorithm
 epochs = 10
 SOM.fit(X, neurons, epochs)
 
-
-# type of shape for create lines in plot
-type_of_shape = "square"
-
 # get the coordinates of neurons for presentation on the graph
 x_values, y_values = Utils.getCoordinates(neurons, type_of_shape)
-
 
 # paint points and neurons
 fig, ax = plt.subplots()
@@ -49,7 +51,6 @@ if type_of_shape == "square":
 else:
     plt.plot(x_values, y_values, color='red', linewidth=1.0)
 
-
-c1 = plt.Circle((centerX, centerY), radius, color='blue', fill=False)
+c1 = plt.Circle((centerX, centerY), 2, color='blue', fill=False)
 ax.add_artist(c1)
 plt.show()

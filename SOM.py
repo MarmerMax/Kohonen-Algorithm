@@ -70,5 +70,5 @@ def fit(points, neurons, epochs):
 
                 if distance < sigma:
                     h = neighborFunction(neurons[winner_neuron_index], neurons[neighbor_index], sigma)
-                    print(h)
+                    # print(h)
                     neurons[neighbor_index] = updateNeuronPlacement(point, neurons[neighbor_index], alpha, h)

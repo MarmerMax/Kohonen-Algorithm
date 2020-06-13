@@ -11,12 +11,35 @@ def randomPointCircle(radius, centerX, centerY):
     return np.array([x, y])
 
 
-def createRandomPointsArray(radius, centerX, centerY):
+def randomPointInRing(big_radius, small_radius, centerX, centerY):
+    x = 0
+    y = 0
+
+    while abs(x) < small_radius and abs(y) < small_radius:
+        r = big_radius * math.sqrt(random())
+        theta = random() * 2 * math.pi
+        x = centerX + r * math.cos(theta)
+        y = centerY + r * math.sin(theta)
+
+    return np.array([x, y])
+
+
+def createRandomPointsInCircleArray(radius, centerX, centerY):
     # Init points (just for now)
     size = 50
     X = np.zeros((size, 2))
     for i in range(size):
         X[i] = randomPointCircle(radius, centerX, centerY)
+
+    return X
+
+
+def createRandomPointsInRingArray(big_radius, small_radius, centerX, centerY):
+    # Init points (just for now)
+    size = 50
+    X = np.zeros((size, 2))
+    for i in range(size):
+        X[i] = randomPointInRing(big_radius, small_radius, centerX, centerY)
 
     return X
 

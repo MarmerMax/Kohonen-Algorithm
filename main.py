@@ -13,9 +13,9 @@ type_of_shape = "ring"
 
 # create random points by chosen type of shape
 if type_of_shape == "circle":
-    X = Utils.createRandomPointsInCircleArray(radius, centerX, centerY)
+    X = Utils.createRandomPointsInCircleArray(radius, 100, centerX, centerY)
 elif type_of_shape == "ring":
-    X = Utils.createRandomPointsInRingArray(radius * 2, radius, centerX, centerY)
+    X = Utils.createRandomPointsInRingArray(radius * 2, radius, 100, centerX, centerY)
 
 # type of neurons network shape -> ["line", "circle", "square"]
 type_of_network = "square"
@@ -29,8 +29,9 @@ elif type_of_network == "square":
     neurons = Utils.initNeuronsInSquare(25, 5, radius)
 
 # algorithm
-epochs = 10
-SOM.fit(X, neurons, epochs)
+epochs = 100
+SOM.fit(X, neurons, epochs, radius)
+# print(neurons)
 
 # get the coordinates of neurons for presentation on the graph
 x_values, y_values = Utils.getCoordinates(neurons, type_of_network)

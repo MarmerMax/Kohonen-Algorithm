@@ -24,9 +24,9 @@ def randomPointInRing(big_radius, small_radius, centerX, centerY):
     return np.array([x, y])
 
 
-def createRandomPointsInCircleArray(radius, centerX, centerY):
+def createRandomPointsInCircleArray(radius, points_amount, centerX, centerY):
     # Init points (just for now)
-    size = 50
+    size = points_amount
     X = np.zeros((size, 2))
     for i in range(size):
         X[i] = randomPointCircle(radius, centerX, centerY)
@@ -34,9 +34,8 @@ def createRandomPointsInCircleArray(radius, centerX, centerY):
     return X
 
 
-def createRandomPointsInRingArray(big_radius, small_radius, centerX, centerY):
-    # Init points (just for now)
-    size = 50
+def createRandomPointsInRingArray(big_radius, small_radius, points_amount, centerX, centerY):
+    size = points_amount
     X = np.zeros((size, 2))
     for i in range(size):
         X[i] = randomPointInRing(big_radius, small_radius, centerX, centerY)
@@ -46,11 +45,11 @@ def createRandomPointsInRingArray(big_radius, small_radius, centerX, centerY):
 
 def initNeuronsInLine(neurons_size, radius):
     neurons = np.zeros((neurons_size, 2))
-    step = (radius * 2) / len(neurons)
-    start_point = -radius
+    step = radius / len(neurons)
+    start_point = -radius / 2
     for i in range(neurons_size):
-        start_point += step
         neurons[i] = np.array([start_point, 0])
+        start_point += step
 
     return neurons
 
@@ -59,8 +58,8 @@ def initNeuronsInCircle(neurons_size, radius):
     neurons = np.zeros((neurons_size, 2))
     pi = math.pi
     for i in range(len(neurons)):
-        neurons[i][0] = math.cos(2 * pi / len(neurons) * i) * radius
-        neurons[i][1] = math.sin(2 * pi / len(neurons) * i) * radius
+        neurons[i][0] = math.cos(2 * pi / len(neurons) * i) * radius / 2
+        neurons[i][1] = math.sin(2 * pi / len(neurons) * i) * radius / 2
 
     # return [(math.cos(2 * pi / n * x) * r, math.sin(2 * pi / n * x) * r) for x in range(0, n + 1)]
     return neurons
@@ -68,15 +67,15 @@ def initNeuronsInCircle(neurons_size, radius):
 
 def initNeuronsInSquare(neurons_size, neurons_per_line, radius):
     neurons = np.zeros((neurons_size, 2))
-    step = (radius * 2) / (neurons_per_line - 1)
-    point_x = -radius
-    point_y = -radius
+    step = (radius / 2) / (neurons_per_line - 1)
+    point_x = -radius / 4
+    point_y = -radius / 4
     rows = int(neurons_size / neurons_per_line)
     for i in range(rows):
         for j in range(neurons_per_line):
             neurons[i * neurons_per_line + j] = np.array([point_x, point_y])
             point_x += step
-        point_x = -radius
+        point_x = -radius / 4
         point_y += step
     return neurons
 

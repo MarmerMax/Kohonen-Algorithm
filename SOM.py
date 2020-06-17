@@ -42,26 +42,24 @@ def updateAlpha(alpha, iteration, lambda_start):
 
 
 # start algorithm
-def fit(points, neurons, epochs):
+def fit(points, neurons, epochs, radius):
     alpha_start = 0.01
-    sigma_start = 2
-    lambda_start = len(points) / math.log(sigma_start)
 
-    # sigma_start = int(max(len(neurons), len(neurons[0])) / 2)
-    # lambda_start = 100
+    sigma_start = radius / 2 + 0.0001
 
-    # for i in range(len(points)):
-    for point in points:
+    lambda_start = epochs / math.log(epochs)
 
-        # find winner
-        winner_neuron_index = chooseNeuronToMove(point, neurons)
+    # train each point by epochs amount
+    for iteration in range(epochs):
 
-        # train each point by epochs amount
-        for iteration in range(epochs):
+        # update learning variables
+        alpha = updateAlpha(alpha_start, iteration, epochs)
+        sigma = updateSigma(sigma_start, iteration, lambda_start)
 
-            # update learning variables
-            alpha = updateAlpha(alpha_start, iteration, lambda_start)
-            sigma = updateSigma(sigma_start, iteration, lambda_start)
+        for point in points:
+
+            # find winner
+            winner_neuron_index = chooseNeuronToMove(point, neurons)
 
             # for each neuron
             for neighbor_index in range(len(neurons)):
@@ -70,5 +68,6 @@ def fit(points, neurons, epochs):
 
                 if distance < sigma:
                     h = neighborFunction(neurons[winner_neuron_index], neurons[neighbor_index], sigma)
-                    # print(h)
                     neurons[neighbor_index] = updateNeuronPlacement(point, neurons[neighbor_index], alpha, h)
+
+

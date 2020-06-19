@@ -1,5 +1,5 @@
 import math
-
+import numpy as np
 
 # calculate distance between two points
 def euclideanDistance(point, neuron):
@@ -49,6 +49,8 @@ def fit(points, neurons, epochs, radius):
 
     lambda_start = epochs / math.log(epochs)
 
+    errors = np.array([])
+
     # train each point by epochs amount
     for iteration in range(epochs):
 
@@ -56,10 +58,15 @@ def fit(points, neurons, epochs, radius):
         alpha = updateAlpha(alpha_start, iteration, epochs)
         sigma = updateSigma(sigma_start, iteration, lambda_start)
 
+        sum_of_errors = 0
+
         for point in points:
 
             # find winner
             winner_neuron_index = chooseNeuronToMove(point, neurons)
+
+            # calculate error
+            sum_of_errors += euclideanDistance(point, neurons[winner_neuron_index])
 
             # for each neuron
             for neighbor_index in range(len(neurons)):
@@ -70,4 +77,6 @@ def fit(points, neurons, epochs, radius):
                     h = neighborFunction(neurons[winner_neuron_index], neurons[neighbor_index], sigma)
                     neurons[neighbor_index] = updateNeuronPlacement(point, neurons[neighbor_index], alpha, h)
 
+        errors = np.append(errors, [sum_of_errors / len(points)])
 
+    return errors

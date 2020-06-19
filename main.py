@@ -15,7 +15,7 @@ type_of_shape = "ring"
 if type_of_shape == "circle":
     X = Utils.createRandomPointsInCircleArray(radius, 100, centerX, centerY)
 elif type_of_shape == "ring":
-    X = Utils.createRandomPointsInRingArray(radius * 2, radius, 100, centerX, centerY)
+    X = Utils.createRandomPointsInRingArray(radius * 2, radius, 50, centerX, centerY)
 
 # type of neurons network shape -> ["line", "circle", "square"]
 type_of_network = "square"
@@ -29,8 +29,8 @@ elif type_of_network == "square":
     neurons = Utils.initNeuronsInSquare(25, 5, radius)
 
 # algorithm
-epochs = 100
-SOM.fit(X, neurons, epochs, radius)
+epochs = 50
+errors = SOM.fit(X, neurons, epochs, radius)
 # print(neurons)
 
 # get the coordinates of neurons for presentation on the graph
@@ -65,5 +65,10 @@ elif type_of_shape == "ring":
     c2 = plt.Circle((centerX, centerY), radius * 2, color='blue', fill=False)
     ax.add_artist(c1)
     ax.add_artist(c2)
+
+# plt.plot(range(1, len(errors) + 1), errors, color='red')
+# plt.xlabel('Epochs')
+# plt.ylabel('Sum-squared-error')
+# plt.show()
 
 plt.show()

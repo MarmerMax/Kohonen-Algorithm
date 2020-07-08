@@ -13,7 +13,7 @@ type_of_shape = "ring"
 
 # create random points by chosen type of shape
 if type_of_shape == "circle":
-    X = Utils.createRandomPointsInCircleArray(radius, 100, centerX, centerY)
+    X = Utils.createRandomPointsInCircleArray(radius, 50, centerX, centerY)
 elif type_of_shape == "ring":
     X = Utils.createRandomPointsInRingArray(radius * 2, radius, 100, centerX, centerY)
 
@@ -29,7 +29,7 @@ elif type_of_network == "square":
     neurons = Utils.initNeuronsInSquare(25, 5, radius)
 
 # algorithm
-epochs = 100
+epochs = 50
 errors = SOM.fit(X, neurons, epochs, radius)
 
 # get the coordinates of neurons for presentation on the graph
